@@ -3,16 +3,20 @@ var multer  = require('multer');
 var pug = require('pug');
 var path = require('path');
 var app = express();
-var storage = multer.diskStorage({
+/*var storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, './uploads/')
-	//cb(null, "ftp://pu.bli.sh/fcc")
   },
   filename: function (req, file, cb) {
-    cb(null, file.upload + '-' + Date.now())
+    cb(null, Date.now())
+  },
+  size: function(req, file, cb) {
+	console.log(file.size)
+	cb(null, file.size)
+	
   }
-})
-var upload = multer({ storage : storage }).single('upload');
+})*/
+var uploadFile = multer({ dest : './uploads/' });//.single('upload');
 
 app.use(express.static(__dirname + '/public'));
 /*app.use(multer({
@@ -34,10 +38,10 @@ app.get('/', function(req, res){
 	});
 });
 
-app.post('/upload', function(req, res){
+app.post('/upload', uploadFile.single('upload'), function(req, res){
 /*	console.log(req.files.name)
 */	
-	upload(req, res, function(err){
+	/*uploadFile(req, res, function(err){
 		if (err) {
 			return handleError(res, err.message, "Could not upload.");
 		}
@@ -52,7 +56,7 @@ app.post('/upload', function(req, res){
 			title: 'FCC File Metadata Microservice',
 			list: JSON.stringify(list)
 		});
-	});
+//	});
 			
 })
 		
