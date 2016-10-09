@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  div.container-fluid
+    h1.page-header #{title}
+    form(method="POST", action="/")
+      h4 Browse for a file
+      input.form-control(type="file", name="upload")
+      input.btn.btn-default.margin(type="submit", value="upload") 
+    h4 output:
+    div #{list}
+      
